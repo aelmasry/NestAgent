@@ -1,0 +1,18 @@
+---
+description: NestAgent architecture and development rules
+alwaysApply: true
+---
+
+# NestAgent Rules
+
+- Always perform Step 0 before code execution or edits: validate Python, pip, Ollama HTTP, project structure, and write permissions.
+- If readiness is missing, explain the missing items in Arabic, propose fixes, and ask before modifying system state unless the fix is safe and reversible.
+- Treat the LLM as a planner only. It must produce structured plans and must not execute tools.
+- Treat the Harness as the decision and execution engine. It owns environment checks, tool lookup, retries, validation, and result review.
+- Check the tool registry before adding a new tool.
+- Search GitHub/open-source before creating a new tool from scratch.
+- Keep tools reusable, clear in input/output, safe by default, and non-duplicative.
+- Keep the project pure Python and stdlib-first. Do not add LangChain, LangGraph, CrewAI, or similar frameworks.
+- Preserve the explicit workflow: plan, review, execute, validate, review.
+- For filesystem behavior, keep tools constrained to the project root unless the user explicitly approves broader access.
+- Prefer small, focused tests when changing Harness behavior, tool behavior, or web APIs.
