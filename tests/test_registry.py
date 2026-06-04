@@ -5,6 +5,8 @@ def test_builtin_tools_registered():
     reg = ToolRegistry()
     assert reg.has("echo")
     assert reg.has("environment_check")
+    assert reg.has("list_dir")
+    assert reg.has("read_file")
 
 
 def test_echo_tool():

@@ -4,14 +4,23 @@ from __future__ import annotations
 
 from typing import Any
 
+import os
+
 from tools.base import Tool, ToolResult
 from tools.builtin import EchoTool, EnvironmentCheckTool
+from tools.filesystem import ListDirTool, ReadFileTool
 
 
 class ToolRegistry:
-    def __init__(self) -> None:
+    def __init__(self, project_root: str | None = None) -> None:
+        root = project_root or os.environ.get("NESTAGENT_ROOT", os.getcwd())
         self._tools: dict[str, Tool] = {}
-        for tool in (EchoTool(), EnvironmentCheckTool()):
+        for tool in (
+            EchoTool(),
+            EnvironmentCheckTool(),
+            ListDirTool(root),
+            ReadFileTool(root),
+        ):
             self.register(tool)
 
     def register(self, tool: Tool) -> None:

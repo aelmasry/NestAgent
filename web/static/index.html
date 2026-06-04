@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NestAgent Console</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">NestAgent</p>
+          <h1>Agent Console</h1>
+          <p>
+            Talk to the Harness, inspect planning, and review tool execution.
+          </p>
+        </div>
+        <div class="status" id="readyStatus">Checking...</div>
+      </section>
+
+      <section class="panel">
+        <label for="request">Request</label>
+        <textarea id="request" rows="4">check environment</textarea>
+        <div class="actions">
+          <label class="toggle">
+            <input id="usePlanner" type="checkbox" checked />
+            Use LLM planner
+          </label>
+          <button id="runBtn">Run</button>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Tools</h2>
+          <pre id="tools">Loading...</pre>
+        </article>
+        <article class="panel">
+          <h2>Models</h2>
+          <pre id="models">Loading...</pre>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2>Run Output</h2>
+        <pre id="output">No run yet.</pre>
+      </section>
+    </main>
+    <script type="module" src="/static/app.js"></script>
+  </body>
+</html>

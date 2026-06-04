@@ -25,9 +25,15 @@ pip install -r requirements.txt
 ollama serve   # if not already up
 
 python main.py ready
+python main.py tools
 python main.py models
 python main.py run "check environment" --no-planner
+python main.py run "list project files and read README.md"
 python main.py run "summarize what NestAgent does"
+
+# Local web console. Defaults to port 18080, and auto-falls back if busy.
+python main.py web
+python main.py web --port 0
 ```
 
 ## Configuration (environment)
@@ -37,6 +43,8 @@ python main.py run "summarize what NestAgent does"
 | `OLLAMA_BASE_URL` | `http://127.0.0.1:11434` |
 | `NESTAGENT_PLANNER_MODEL` | `qwen2.5-coder:7b` |
 | `NESTAGENT_MAX_RETRIES` | `2` |
+| `NESTAGENT_WEB_HOST` | `127.0.0.1` |
+| `NESTAGENT_WEB_PORT` | `18080` |
 
 ## Project layout
 
@@ -46,6 +54,7 @@ harness/      engine, workflow, validation
 llm/          Ollama client + planner
 tools/        base, registry, builtins
 discovery/    GitHub search
+web/          local browser console
 tests/
 main.py       CLI
 ```

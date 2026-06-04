@@ -16,7 +16,7 @@ from tools.registry import ToolRegistry
 class Harness:
     def __init__(self, settings: Settings | None = None) -> None:
         self.settings = settings or load_settings()
-        self.registry = ToolRegistry()
+        self.registry = ToolRegistry(self.settings.project_root)
         self.client = OllamaClient(self.settings.ollama)
         self.planner = Planner(self.client)
         self.discovery = GitHubDiscovery(limit=self.settings.harness.github_search_limit)
@@ -50,9 +50,26 @@ class Harness:
             try:
                 plan = self.planner.create_plan(user_request, context)
                 run.add(StepPhase.PLAN, "llm_plan", "خطة من المخطط", ok=True, plan=plan)
-            except ConnectionError as exc:
-                plan = {"goal": user_request, "steps": [], "acceptance": "n/a"}
-                run.add(StepPhase.PLAN, "llm_plan", str(exc), ok=False)
+            except (ConnectionError, TimeoutError, OSError) as exc:
+                plan = {
+                    "goal": user_request,
+                    "steps": [
+                        {
+                            "action": "use_tool",
+                            "tool": "list_dir",
+                            "input": {"path": ".", "max_depth": 1},
+                            "reason": "planner unavailable — list project",
+                        },
+                        {
+                            "action": "use_tool",
+                            "tool": "read_file",
+                            "input": {"path": "README.md"},
+                            "reason": "planner unavailable — read README",
+                        },
+                    ],
+                    "acceptance": "list_dir and read_file succeed",
+                }
+                run.add(StepPhase.PLAN, "llm_plan", f"fallback: {exc}", ok=False)
                 use_planner = False
         else:
             plan = {"goal": user_request, "steps": [], "acceptance": "n/a"}
