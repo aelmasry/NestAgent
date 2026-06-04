@@ -3,49 +3,113 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NestAgent Console</title>
+    <title>NestAgent Workspace</title>
     <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
-    <main class="shell">
-      <section class="hero">
+    <main class="workspace">
+      <header class="topbar">
         <div>
           <p class="eyebrow">NestAgent</p>
-          <h1>Agent Console</h1>
-          <p>
-            Talk to the Harness, inspect planning, and review tool execution.
-          </p>
+          <h1>Agent Workspace</h1>
+          <p class="subtitle">Submit a goal and watch the agent work through planning, tools, evidence, validation, and response.</p>
         </div>
-        <div class="status" id="readyStatus">Checking...</div>
-      </section>
+        <div class="status-pill" id="readyStatus">Checking...</div>
+      </header>
 
-      <section class="panel">
-        <label for="request">Request</label>
-        <textarea id="request" rows="4">check environment</textarea>
-        <div class="actions">
-          <label class="toggle">
-            <input id="usePlanner" type="checkbox" checked />
-            Use LLM planner
-          </label>
-          <button id="runBtn">Run</button>
+      <section class="composer-card">
+        <label for="request">What should NestAgent do?</label>
+        <textarea id="request" rows="4">Find apartment under 4000 AED near metro</textarea>
+        <div class="composer-actions">
+          <span class="hint">Generic workspace view. Current MVP uses mock tool data when capability coverage exists.</span>
+          <button id="runBtn">Run Agent</button>
         </div>
       </section>
 
-      <section class="grid">
-        <article class="panel">
-          <h2>Tools</h2>
-          <pre id="tools">Loading...</pre>
-        </article>
-        <article class="panel">
-          <h2>Models</h2>
-          <pre id="models">Loading...</pre>
-        </article>
+      <section class="layout">
+        <section class="main-column">
+          <article class="panel user-view">
+            <div class="section-heading">
+              <span>User View</span>
+              <strong id="currentStatus">Idle</strong>
+            </div>
+            <h2 id="goalText">No goal submitted yet.</h2>
+            <div class="metric-row">
+              <div>
+                <span>Progress</span>
+                <strong id="progressText">0/0</strong>
+              </div>
+              <div>
+                <span>Elapsed Time</span>
+                <strong id="elapsedTime">0ms</strong>
+              </div>
+            </div>
+            <div class="progress-track">
+              <div id="progressBar" class="progress-bar"></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="section-heading">
+              <span>Agent Activity Feed</span>
+              <strong id="activityCount">0 actions</strong>
+            </div>
+            <ol id="activityFeed" class="activity-feed">
+              <li class="empty">Run a goal to see live agent activity.</li>
+            </ol>
+          </article>
+
+          <article class="panel">
+            <div class="section-heading">
+              <span>Final Response</span>
+              <strong>Response Composer</strong>
+            </div>
+            <div id="finalAnswer" class="final-answer">No response yet.</div>
+          </article>
+        </section>
+
+        <aside class="side-column">
+          <article class="panel">
+            <div class="section-heading">
+              <span>Timeline</span>
+              <strong id="totalRuntime">0ms total</strong>
+            </div>
+            <ol id="timelineList" class="timeline-list">
+              <li class="empty">No timeline yet.</li>
+            </ol>
+          </article>
+
+          <article class="panel">
+            <div class="section-heading">
+              <span>Evidence</span>
+              <strong id="evidenceCount">0 items</strong>
+            </div>
+            <div id="evidenceList" class="evidence-list">No evidence collected.</div>
+          </article>
+        </aside>
       </section>
 
-      <section class="panel">
-        <h2>Run Output</h2>
-        <pre id="output">No run yet.</pre>
-      </section>
+      <details class="developer panel">
+        <summary>Developer View</summary>
+        <div class="developer-grid">
+          <section>
+            <h3>Planner Output</h3>
+            <pre id="plannerOutput"></pre>
+          </section>
+          <section>
+            <h3>Capabilities</h3>
+            <pre id="selectedCapabilities"></pre>
+          </section>
+          <section>
+            <h3>Evidence Generated</h3>
+            <pre id="evidenceGenerated"></pre>
+          </section>
+          <section>
+            <h3>Validation Decisions</h3>
+            <pre id="validationDecisions"></pre>
+          </section>
+        </div>
+      </details>
     </main>
     <script type="module" src="/static/app.js"></script>
   </body>

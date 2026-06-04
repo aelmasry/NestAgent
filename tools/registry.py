@@ -7,6 +7,7 @@ from typing import Any
 import os
 
 from tools.base import Tool, ToolResult
+from tools.apartment_mock import ApartmentSearchMockTool
 from tools.builtin import EchoTool, EnvironmentCheckTool
 from tools.filesystem import ListDirTool, ReadFileTool
 
@@ -20,6 +21,7 @@ class ToolRegistry:
             EnvironmentCheckTool(),
             ListDirTool(root),
             ReadFileTool(root),
+            ApartmentSearchMockTool(),
         ):
             self.register(tool)
 
